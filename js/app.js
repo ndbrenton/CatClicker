@@ -1,67 +1,57 @@
-let display = document.querySelector('.display');
+// Variables
 let list = document.querySelector('.list');
+let display = document.querySelector('.display');
+let display_header = document.querySelector('.container-header');
+let display_main = document.querySelector('main');
 
 // Array of Objects: Cat name and Cat picture URL
 let pictures = [{ name: "Eyes",      count: 0, src: "img/eyes.png"},
                 { name: "Meow",      count: 0, src: "img/meow.png"},
                 { name: "Rocky",     count: 0, src: "img/rocky.png"},
                 { name: "Sit",       count: 0, src: "img/sit.png"},
-                { name: "Waterfall", count: 0, src: "img/waterfall.png"}]; // console.log(pictures);
-// Array of Cat Names
-let pictureNames = pictures.map(function(pic){
-    for(var i = 0; i < pictures.length; i++) {
-        var rPic = {};
-        rPic = pic.name;
-        return rPic;
-    }
-}); // console.log(pictureNames);
-
+                { name: "Waterfall", count: 0, src: "img/waterfall.png"}
+               ]; // console.log(pictures);
 
 // loop over the names in pictureNames array
-for (var i = 0; i < pictureNames.length; i++) {
-    // This is the name we're on...
-    var name = pictureNames[i];
+for (var i = 0; i < pictures.length; i++) {
+
+    var name = pictures[i].name;  // This is the name we're on...
+    var count = pictures[i].count;
     var src = pictures[i].src;
-
-    // We're creating a DOM element for the name LIST
+    // creates a DOM element for the list
     var elem = document.createElement('div');
-    elem.textContent = name; // add the name between the tags
-    elem.dataset.name = name; // add data property ... for maybe useful
+    elem.classList.add('listing');
+    elem.textContent = name;
 
-    // We're creating a DOM elements for the display div
-    var nametop = document.createElement('p');
-    // var countmid = document.createElement('p');  // TBD
+    // creates DOM elements for the display area
+    var header_name = document.createElement('p');
+    header_name.classList.add('name');
+    var header_count = document.createElement('p');
+    header_count.classList.add('count');
     var image = document.createElement('img');
 
+    // ... and when we click...
+    elem.addEventListener('click', (function(nameCopy, countCopy, srcCopy) {  // magical IIFE
+        return function() { // console.log(`Name: ${nameCopy} Clicks: ${countCopy} Path: ${srcCopy}`);
+            countCopy++;  // increment the count
 
-    // ... and when we click, console.log the value of `name` and `src`
-    elem.addEventListener('click', (function(nameCopy, srcCopy) {
-        return function() {
-            console.log(`Name: ${nameCopy} Path: ${srcCopy}`);
-            image.src = srcCopy;
-            nametop.textContent = nameCopy;
+            header_name.textContent = nameCopy;  // add cats name to header
+            header_count.textContent = countCopy;  // add counts to header
+            image.src = srcCopy;  // fill in source for image tag
+
+            // clear the display area
+            display_header.innerHTML = '';
+            display_main.innerHTML = '';
+
             // build the display area
-            display.innerHTML = '';
-            display.appendChild(nametop);
+            display_header.appendChild(header_name);
+            display_header.appendChild(header_count);
             display.appendChild(image);
 
         };
-    })(name, src));
 
-    list.appendChild(elem);
+    })(name, count, src));  // arguments for the IIFE
 
-};
+    list.appendChild(elem); // add clickable name to list area
 
-
-
-
-
-function loadFeed(feedId, feedName, feedCount) {
-    console.log(`Loaded feed ${feedId} ${feedCount} ${feedName}.`);
-
-    document.querySelector('.name').textContent = feedName;
-    document.querySelector('.count').textContent = feedCount;
-    document.querySelector('.display').innerHTML = `<p id="${feedName}" class="name">${feedName}</p>
-                                                 <p id="${feedCount}" class="count">${feedCount}</p>
-                                                 <img src="${pictures[feedId].src}" />`;
-}
+};  // end of for-loop
