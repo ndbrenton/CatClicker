@@ -1,0 +1,46 @@
+html, body, div {
+    margin: 0;
+}
+body {
+    background-color: #666;
+    color: #9bd5e9;
+    font-family: 'Arial', sans-serif;
+    font-size: 2em;
+}
+div.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background-color: #681b36;
+}
+
+/* Cat Listing Area */
+ul#cat-list {
+    min-width: 200px;
+    min-height: 720px;
+    background-color: #00175b;
+}
+div.listing {
+}
+
+/* Cat Display Area */
+div#cat {
+    min-width: 720px;
+    min-height: 720px;
+    background-color: #1dcab2;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+h2#cat-name, div#cat-count {
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #000;
+}
